@@ -1,0 +1,63 @@
+.login{
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgba(255, 255, 255,0.5),rgba(255, 255, 255,0.5)), url("https://img.freepik.com/premium-vector/network-connection-background-abstract-style_23-2148875738.jpg");
+    background-size: cover;
+}
+.loginTitle {
+    font-size: 2.5rem; 
+    color: #333; 
+}
+.loginForm{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 300px; 
+}
+.loginForm > label{
+    margin: 10px 0;
+    font-size: 1rem; 
+    color: #555;
+}
+.loginInput{
+    padding: 12px; 
+    background-color: #f9f9f9; 
+    border: 1px solid #ddd; 
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+.loginInput:focus{
+    outline: none;
+    border-color: dodgerblue; /* Change border color on focus */
+}
+.loginButton {
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: dodgerblue;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+.loginButton:hover {
+    background-color: #007bff; /* Darken button color on hover */
+}
+
+.loginRegisterButton{
+    position: absolute;
+    bottom: 80px;
+    background-color: teal;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    width: 100px;
+    border-radius: 8px;
+}

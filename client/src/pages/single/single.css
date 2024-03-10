@@ -1,3 +1,11 @@
-.single{
+.single {
     display: flex;
+}
+
+.single > div:first-child {
+    flex: 70%;
+}
+
+.single > div:last-child {
+    flex: 20%;
 }

@@ -1,17 +1,46 @@
-import './singlePost.css';
-// import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import "./singlePost.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import React from "react";
 
-export default function SinglePost() {
+const SinglePost = React.memo(() => {
+  const location = useLocation();
+  const path = location.pathname.split("/")[2];
+  const [post, setPost] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await axios.get("/posts/" + path);
+        setPost(res.data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
+    };
+    getPost();
+  }, [path]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
-        <img
-          src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-          alt=""
-          className="singlePostImg"
-        />
+        {post.photo && (
+          <img src={post.photo} alt="" className="singlePostImg" />
+        )}
         <h1 className="singlePostTitle">
-          Lorem ipsum dolor sit amet, consectetur adip
+          {post.title}
           <div className="singlePostEdit">
             <i className="singlePostIcon fa fa-edit"></i>
             <i className="singlePostIcon fa fa-trash-alt"></i>
@@ -19,41 +48,16 @@ export default function SinglePost() {
         </h1>
         <div className="singlePostInfo">
           <span className="singlePostAuthor">
-            Author: <b>Sunil</b>
+            Author: <b>{post.username}</b>
           </span>
-          <span className='singlePostDate'>1 hour ago</span>
+          <span className="singlePostDate">
+            {new Date(post.createdAt).toDateString()}
+          </span>
         </div>
-        <p className="singlePostDesc">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste error
-          quibusdam ipsa quis quidem doloribus eos, dolore ea iusto impedit!
-          Voluptatum necessitatibus eum beatae, adipisci voluptas a odit modi
-          eos! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste
-          error quibusdam ipsa quis quidem doloribus eos, dolore ea iusto
-          impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas a
-          odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos!
-          <br />
-          <br />
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste error
-          quibusdam ipsa quis quidem doloribus eos, dolore ea iusto impedit!
-          Voluptatum necessitatibus eum beatae, adipisci voluptas a odit modi
-          eos! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste
-          error quibusdam ipsa quis quidem doloribus eos, dolore ea iusto
-          impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas a
-          odit modi eos! Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Iste error quibusdam ipsa quis quidem doloribus eos, dolore ea
-          iusto impedit! Voluptatum necessitatibus eum beatae, adipisci voluptas
-          a odit modi eos! Lorem, ipsum dolor sit amet consectetur.
-        </p>
+        <p className="singlePostDesc">{post.desc}</p>
       </div>
     </div>
   );
-}
+});
+
+export default SinglePost;

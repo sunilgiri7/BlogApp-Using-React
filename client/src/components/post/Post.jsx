@@ -1,35 +1,25 @@
 import './post.css';
+import {Link} from "react-router-dom";
 
-export default function Post() {
+export default function Post({post}) {
   return (
     <div className="post">
-      <img
-        className="imgPost"
-        src="https://images.squarespace-cdn.com/content/v1/5aee2382f93fd4603e621996/1530883337137-72P1R42DRUHHKBMH7Y8O/Lake+Bled+Slovenia+DJI+Drone+Aerial+View.jpg"
-        alt=""
-      />
+      {post.photo && <img className="imgPost" src={post.photo} alt="" />}
       <div className="postInfo">
         <div className="postCats">
-          <span className="postCat">Music</span>
-          <span className="postCat">Life</span>
+          {post.categories.map((c,index) => (
+            <span className="postCat" key={index}>{c.name}</span>
+          ))}
         </div>
-        <span className="postTitle">Lorem ipsum is a random raw data</span>
+        <Link to={`/post/${post._id}`} className='link'>
+          <span className="postTitle">{post.title}</span>
+        </Link>
         <hr />
-        <span className="postDate">1 hour ago</span>
+        <span className="postDate">
+          {new Date(post.createdAt).toDateString()}
+        </span>
       </div>
-      <p className="postDesc">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac quam
-        libero. Vivamus fermentum, dolor non condimentum luctus, leo justo
-        condimentum odio, id hendrerit nisi justo ac mauris. Lorem ipsum dolor
-        sit amet, consectetur adipiscing elit. Sed ac quam libero. Vivamus
-        fermentum, dolor non condimentum luctus, leo justo condimentum odio, id
-        hendrerit nisi justo ac mauris. Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Sed ac quam libero. Vivamus fermentum, dolor non
-        condimentum luctus, leo justo condimentum odio, id hendrerit nisi justo
-        ac mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-        ac quam libero. Vivamus fermentum, dolor non condimentum luctus, leo
-        justo condimentum odio, id hendrerit nisi justo ac mauris.
-      </p>
+      <p className="postDesc">{post.desc}</p>
     </div>
   );
 }

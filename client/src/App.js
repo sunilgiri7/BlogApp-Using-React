@@ -7,9 +7,11 @@ import Single from "./pages/single/Single";
 import Write from "./pages/write/Write";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "./context/Context";
 
 function App() {
-  const user = true;
+  const {user} = useContext(Context)
 
   return (
     <Router>

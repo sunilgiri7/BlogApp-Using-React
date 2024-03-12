@@ -5,32 +5,43 @@ const bcrypt = require('bcrypt');
 //Register
 router.post("/register", async(req,res) =>{
     try{
+        console.log(req.body)
         const salt = await bcrypt.genSalt()
         const hashedPass = await bcrypt.hash(req.body.password, salt);
-        const newUser = new User({
+        console.log(hashedPass);
+        let newUser = new User({
             username: req.body.username,
             email: req.body.email,
             password: hashedPass,
         })
-        const user = await newUser.save()
+        console.log("newUser");
+        let user = await newUser.save();
+        console.log("User")
+        console.log(user);
         res.status(200).json(user)
     }catch(err){
         res.status(500).json(err)
     }
 })
 
-router.post("/login", async(req, res) => {
-    try{
-        const user = await User.findOne({username: req.body.username})
-        !user && res.status(400).json("Wrong Credentials!")
-        const validate = await bcrypt.compare(req.body.password, user.password)
-        !validate && res.status(400).json("Wrong Credentials!");
+router.post("/login", async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.body.username });
+        if (!user) {
+            return res.status(400).json("Wrong Credentials!");
+        }
+        
+        const validate = await bcrypt.compare(req.body.password, user.password);
+        if (!validate) {
+            return res.status(400).json("Wrong Credentials!");
+        }
 
         const { password, ...others } = user._doc;
-        res.status(200).json(others);
-    }catch(err){
-        res.status(500).json(err) 
+        return res.status(200).json(others);
+    } catch (err) {
+        return res.status(500).json(err);
     }
-})
+});
 
-module.exports = router
+
+module.exports = router;

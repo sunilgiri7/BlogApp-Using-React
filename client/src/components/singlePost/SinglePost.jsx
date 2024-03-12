@@ -1,10 +1,9 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./singlePost.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import React from "react";
 
-const SinglePost = React.memo(() => {
+const SinglePost = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
@@ -48,7 +47,10 @@ const SinglePost = React.memo(() => {
         </h1>
         <div className="singlePostInfo">
           <span className="singlePostAuthor">
-            Author: <b>{post.username}</b>
+            Author:
+            <Link to={`/?user=${post.username}`} className="link">
+              <b>{post.username}</b>
+            </Link>
           </span>
           <span className="singlePostDate">
             {new Date(post.createdAt).toDateString()}
@@ -58,6 +60,6 @@ const SinglePost = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
-export default SinglePost;
+export default React.memo(SinglePost);

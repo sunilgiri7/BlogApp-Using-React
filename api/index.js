@@ -7,10 +7,11 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
-const path = require("path"); // Import the path module
+const path = require("path");
 
 dotenv.config();
 app.use(express.json());
+app.use("/images", express.static(path.join(__dirname,"/images")))
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -23,10 +24,10 @@ mongoose
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "images"); // Assuming 'images' folder exists in the project directory
+    cb(null, "images"); 
   },
   filename: (req, file, cb) => {
-    cb(null, req.body.name); // Use a unique filename based on the request body
+    cb(null, req.body.name); 
   },
 });
 

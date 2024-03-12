@@ -1,7 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import "./singlePost.css";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { Context } from "../../context/Context";
 
 const SinglePost = () => {
   const location = useLocation();
@@ -9,6 +10,11 @@ const SinglePost = () => {
   const [post, setPost] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const PF = "http://localhost:5000/images/";
+  const { user } = useContext(Context); 
+  const [title, setTitle] = useState("")
+  const [desc, setDesc] = useState("")
+  const [updateMode, setUpdateMode] = useState(false)
 
   useEffect(() => {
     const getPost = async () => {
@@ -24,6 +30,17 @@ const SinglePost = () => {
     getPost();
   }, [path]);
 
+  const handleDelete = async()=>{
+    try{
+      await axios.delete(`/posts/${post._id}`, {data: { username: user.username },
+    });
+      window.location.replace("/");
+    }catch(err){
+      console.log(err)
+    }
+  }
+  console.log({ data: { username: user.username } });
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -32,19 +49,36 @@ const SinglePost = () => {
     return <div>Error: {error.message}</div>;
   }
 
+
   return (
     <div className="singlePost">
       <div className="singlePostWrapper">
         {post.photo && (
-          <img src={post.photo} alt="" className="singlePostImg" />
+          <img src={PF + post.photo} alt="" className="singlePostImg" />
         )}
-        <h1 className="singlePostTitle">
-          {post.title}
-          <div className="singlePostEdit">
-            <i className="singlePostIcon fa fa-edit"></i>
-            <i className="singlePostIcon fa fa-trash-alt"></i>
-          </div>
-        </h1>
+        {updateMode ? (
+          <input
+            type="text"
+            value={post.title}
+            className="singlePostTitleInput"
+          />
+        ) : (
+          <h1 className="singlePostTitle">
+            {post.title}
+            {post.username === user?.username && (
+              <div className="singlePostEdit">
+                <i
+                  className="singlePostIcon fa fa-edit"
+                  onClick={() => setUpdateMode(true)}
+                ></i>
+                <i
+                  className="singlePostIcon fa fa-trash-alt"
+                  onClick={handleDelete}
+                ></i>
+              </div>
+            )}
+          </h1>
+        )}
         <div className="singlePostInfo">
           <span className="singlePostAuthor">
             Author:
@@ -56,7 +90,11 @@ const SinglePost = () => {
             {new Date(post.createdAt).toDateString()}
           </span>
         </div>
-        <p className="singlePostDesc">{post.desc}</p>
+        {updateMode ? (
+          <textarea className="singlePostDescInput" />
+        ) : (
+          <p className="singlePostDesc">{post.desc}</p>
+        )}
       </div>
     </div>
   );

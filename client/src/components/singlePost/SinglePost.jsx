@@ -21,6 +21,8 @@ const SinglePost = () => {
       try {
         const res = await axios.get("/posts/" + path);
         setPost(res.data);
+        setTitle(res.data.title)
+        setDesc(res.data.desc);
         setIsLoading(false);
       } catch (error) {
         setError(error);
@@ -38,8 +40,20 @@ const SinglePost = () => {
     }catch(err){
       console.log(err)
     }
+  };
+  const handleUpdate = async () =>{
+    try {
+      await axios.put(`/posts/${post._id}`, {
+        username: user.username,
+        title, 
+        desc,
+      });
+      // window.location.reload();
+      setUpdateMode(false)
+    } catch (err) {
+      console.log(err);
+    }
   }
-  console.log({ data: { username: user.username } });
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,12 +73,14 @@ const SinglePost = () => {
         {updateMode ? (
           <input
             type="text"
-            value={post.title}
+            value={title}
             className="singlePostTitleInput"
+            autoFocus
+            onChange={(e) => setTitle(e.target.value)}
           />
         ) : (
           <h1 className="singlePostTitle">
-            {post.title}
+            {title}
             {post.username === user?.username && (
               <div className="singlePostEdit">
                 <i
@@ -91,9 +107,18 @@ const SinglePost = () => {
           </span>
         </div>
         {updateMode ? (
-          <textarea className="singlePostDescInput" />
+          <textarea
+            className="singlePostDescInput"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
         ) : (
-          <p className="singlePostDesc">{post.desc}</p>
+          <p className="singlePostDesc">{desc}</p>
+        )}
+        {updateMode && (
+          <button className="singlePostButton" onClick={handleUpdate}>
+            Update
+          </button>
         )}
       </div>
     </div>

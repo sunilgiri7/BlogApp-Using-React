@@ -7,6 +7,18 @@
     margin: 10px;
     font-size: 28px;
 }
+.singlePostTitleInput{
+    font-family: "Lora", sans-serif;
+    margin: 10px;
+    font-size: 28px;
+    text-align: center;
+    border: none;
+    color: gray;
+    border-bottom: 1px solid lightgray;
+}
+.singlePostTitleInput:focus{
+    outline: none;
+}
 .singlePostIcon{
     cursor: pointer;
     margin-left: 10px;
@@ -30,6 +42,8 @@
 .singlePostWrapper{
     padding: 20px;
     padding-right: 0px;
+    display: flex;
+    flex-direction: column;
 }
 .singlePostImg{
     width: 100%;
@@ -52,4 +66,24 @@
     float: right;
     font-size: 16px;
     /* margin-left: 280px; */
+}
+.singlePostDescInput{
+    border: none;
+    line-height: 25px;
+    color:#666;
+    font-size: 18px;
+}
+.singlePostDescInput:focus{
+    outline: none;
+}
+.singlePostButton{
+  width: 100px;
+  border: none;
+  background-color: teal;
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 20px;
 }

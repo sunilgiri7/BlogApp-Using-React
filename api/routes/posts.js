@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const Post = require("../models/Post");
+const Post = require("../models/Post").default;
 
 // Create
 router.post("/", async (req, res) => {
@@ -71,25 +71,25 @@ router.get("/:id", async (req, res) => {
 
 //get all post
 router.get("/", async (req, res) => {
-    const username = req.query.user;
-    const catName = req.query.cat;
-    try {
-      let posts;
-      if(username){
-          posts = await Post.find({username})
-      }else if(catName){
-          posts = await Post.find({categories: {
-              $in:[catName],
-          },
-        });
-      }else{
-          posts = await Post.find();
-      }
-      res.status(200).json(posts);
-    } catch (err) {
-      res.status(500).json(err);
+  const username = req.query.user;
+  const catName = req.query.cat;
+  try {
+    let posts;
+    if (username) {
+      posts = await Post.find({ username });
+    } else if (catName) {
+      posts = await Post.find({
+        categories: {
+          $in: [catName],
+        },
+      });
+    } else {
+      posts = await Post.find();
     }
-}
-);
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;

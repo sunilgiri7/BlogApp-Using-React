@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const Post = require("../models/Post");
+const Post = require("../models/Post").default;
 const bcrypt = require("bcrypt");
 
 // Update
@@ -48,14 +48,14 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", async(req,res)=>{
-  try{
+router.get("/:id", async (req, res) => {
+  try {
     const user = await User.findById(req.params.id);
-    const {password, ...others} = user._doc
-    res.status(200).json(others)
-  }catch{
-    res.status(500).json(err)
+    const { password, ...others } = user._doc;
+    res.status(200).json(others);
+  } catch {
+    res.status(500).json(err);
   }
-})
+});
 
 module.exports = router;

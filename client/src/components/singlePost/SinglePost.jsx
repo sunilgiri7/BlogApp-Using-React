@@ -11,17 +11,17 @@ const SinglePost = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const PF = "http://localhost:5000/images/";
-  const { user } = useContext(Context); 
-  const [title, setTitle] = useState("")
-  const [desc, setDesc] = useState("")
-  const [updateMode, setUpdateMode] = useState(false)
+  const { user } = useContext(Context);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [updateMode, setUpdateMode] = useState(false);
 
   useEffect(() => {
     const getPost = async () => {
       try {
         const res = await axios.get("/posts/" + path);
         setPost(res.data);
-        setTitle(res.data.title)
+        setTitle(res.data.title);
         setDesc(res.data.desc);
         setIsLoading(false);
       } catch (error) {
@@ -32,28 +32,29 @@ const SinglePost = () => {
     getPost();
   }, [path]);
 
-  const handleDelete = async()=>{
-    try{
-      await axios.delete(`/posts/${post._id}`, {data: { username: user.username },
-    });
-      window.location.replace("/");
-    }catch(err){
-      console.log(err)
-    }
-  };
-  const handleUpdate = async () =>{
+  const handleDelete = async () => {
     try {
-      await axios.put(`/posts/${post._id}`, {
-        username: user.username,
-        title, 
-        desc,
+      await axios.delete(`/posts/${post._id}`, {
+        data: { username: user.username },
       });
-      // window.location.reload();
-      setUpdateMode(false)
+      window.location.replace("/");
     } catch (err) {
       console.log(err);
     }
-  }
+  };
+  const handleUpdate = async () => {
+    try {
+      await axios.put(`/posts/${post._id}`, {
+        username: user.username,
+        title,
+        desc,
+      });
+      // window.location.reload();
+      setUpdateMode(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -62,7 +63,6 @@ const SinglePost = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
 
   return (
     <div className="singlePost">

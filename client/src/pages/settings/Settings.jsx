@@ -1,25 +1,27 @@
-import './settings.css';
+import "./settings.css";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useContext, useState } from 'react';
-import { Context } from '../../context/Context';
-import axios from 'axios';
+import { useContext, useState } from "react";
+import { Context } from "../../context/Context";
+import axios from "axios";
 
 export default function Settings() {
-  const {user, dispatch} = useContext(Context)
+  const { user, dispatch } = useContext(Context);
   const [file, setFile] = useState(null);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const PF = "https://localhost:500/images/"
+  const PF = "https://localhost:500/images/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch({type: "UPDATE_START"})
+    dispatch({ type: "UPDATE_START" });
     const updatedUser = {
       userId: user._id,
-      username, email, password
+      username,
+      email,
+      password,
     };
     if (file) {
       const data = new FormData();
@@ -35,8 +37,8 @@ export default function Settings() {
     }
     try {
       const res = await axios.put("/users/" + user._id, updatedUser);
-      setSuccess(true)
-      dispatch({ type: "UPDATE_SUCCESS", payload:res.data});
+      setSuccess(true);
+      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
       console.log(err);
@@ -53,7 +55,10 @@ export default function Settings() {
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
           <div className="settingsPP">
-            <img src={file ? URL.createObjectURL(file) : PF + user.profilePic} alt="" />
+            <img
+              src={file ? URL.createObjectURL(file) : PF + user.profilePic}
+              alt=""
+            />
             <label htmlFor="fileInput">
               <i className="settingsPPIcon far fa-user-circle"></i>
             </label>
@@ -84,7 +89,13 @@ export default function Settings() {
           <button className="settingsSubmit" type="submit">
             Update
           </button>
-          {success && <span style={{color: "green", textAlign:"center", marginTop: "20px"}}>Profile has been updated!!</span>}
+          {success && (
+            <span
+              style={{ color: "green", textAlign: "center", marginTop: "20px" }}
+            >
+              Profile has been updated!!
+            </span>
+          )}
         </form>
       </div>
       <Sidebar />

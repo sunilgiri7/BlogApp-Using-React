@@ -5,7 +5,7 @@ const PostSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     desc: {
       type: String,
@@ -22,6 +22,7 @@ const PostSchema = new mongoose.Schema(
     categories: {
       type: Array,
       required: false,
+      default: ["Feelings"],
     },
   },
   { timestamps: true }

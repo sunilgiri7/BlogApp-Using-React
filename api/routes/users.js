@@ -1,25 +1,31 @@
 const router = require("express").Router();
 const User = require("../models/User");
-const Post = require("../models/Post").default;
+const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 
 // Update
 router.put("/:id", async (req, res) => {
+  console.log(req.body.userId);
+  console.log(req.params.id);
   if (req.body.userId === req.params.id) {
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
     }
     try {
+      console.log("ewnjnvbs");
       const user = await User.findById(req.params.id);
-      await Post.deleteMany({ username: user.username });
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      // await Post.deleteMany({ username: user.username });
+      console.log("heyheyheyhey");
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body },
         { new: true }
       );
+      // console.log(updatedUser);
       res.status(200).json(updatedUser);
     } catch (err) {
       res.status(500).json(err);

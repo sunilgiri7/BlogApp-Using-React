@@ -2,12 +2,17 @@ import { useContext, useState } from "react";
 import "./write.css";
 import axios from "axios";
 import { Context } from "../../context/Context";
+import LoadingBar from "../../loadingbar/LoadingBar";
 
 export default function Write() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(Context);
+  if (isLoading) {
+    return <LoadingBar />;
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -28,10 +33,9 @@ export default function Write() {
       }
     }
     try {
-      console.log("heheheh");
-      console.log(newPost);
+      setIsLoading(true);
       const res = await axios.post("/posts/", newPost);
-      console.log("hahahah");
+      setIsLoading(false);
       window.location.replace("/post/" + res.data._id);
     } catch (err) {
       console.log(err);

@@ -1,72 +1,96 @@
-.settings{
-    display: flex;
+.settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-.settingsWrapper{
-    flex: 9;
-    padding: 20px;
+
+.settingsWrapper {
+  flex: 9;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
 }
-.settingsTitle{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+.settingsTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
-.settingsUpdateTitle{
-    font-size: 30px;
-    margin-bottom: 20px;
-    color: lightcoral;
+
+.settingsUpdateTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
 }
-.settingsDeleteTitle{
-    color: red;
-    font-size: 12px;
-    cursor: pointer;
-    font-weight: bold;
+
+.settingsDeleteTitle {
+  color: #ff4d4d;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
 }
-.settingsForm{
-    display: flex;
-    flex-direction: column;
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
 }
-.settingsPP{
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
+
+.settingsPP {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
 }
-.settingsPP>img{
-    width: 70px;
-    height: 70px;
-    border-radius: 20px;
-    object-fit: cover;
+
+.settingsPP > img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
 }
-.settingsPPIcon{
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: lightcoral;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
-    cursor: pointer;
+
+.settingsPPIcon {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #ff7f50;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  cursor: pointer;
 }
-.settingsForm > label{
-    font-size: 20px;
-    margin-top: 20px;
+
+.settingsForm > label {
+  font-size: 16px;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #333;
 }
-.settingsForm > input{
-    color: gray;
-    margin: 10px 0;
-    height: 30px;
-    border: none;
-    border-bottom: 1px solid lightgray;
+
+.settingsForm > input {
+  color: #555;
+  margin: 10px 0;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 10px;
 }
-.settingsSubmit{
-    width: 150px;
-    align-self: center;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    background-color: teal;
-    padding: 10px;
-    margin-top: 20px;
-    cursor: pointer;
+
+.settingsSubmit {
+  width: 150px;
+  align-self: center;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  background-color: #ff7f50;
+  padding: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-weight: bold;
 }

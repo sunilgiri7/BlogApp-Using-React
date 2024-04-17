@@ -3,6 +3,7 @@ import "./singlePost.css";
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Context } from "../../context/Context";
+import LoadingBar from "../../loadingbar/LoadingBar";
 
 const SinglePost = () => {
   const location = useLocation();
@@ -34,10 +35,12 @@ const SinglePost = () => {
 
   const handleDelete = async () => {
     try {
+      setIsLoading(true);
       await axios.delete(`/posts/${post._id}`, {
         data: { username: user.username },
       });
       window.location.replace("/");
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -57,7 +60,7 @@ const SinglePost = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingBar />;
   }
 
   if (error) {

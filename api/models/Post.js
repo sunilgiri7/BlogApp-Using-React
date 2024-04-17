@@ -5,7 +5,7 @@ const PostSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      // unique: true,
+      unique: true,
     },
     desc: {
       type: String,
@@ -17,7 +17,7 @@ const PostSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      required: true,
+      required: false,
     },
     categories: {
       type: Array,

@@ -1,18 +1,34 @@
-import './post.css';
-import {Link} from "react-router-dom";
+import "./post.css";
+import LoadingBar from "../../loadingbar/LoadingBar";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-export default function Post({post}) {
+export default function Post({ post }) {
   const PF = "http://localhost:5000/images/";
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingBar />;
+  }
+
   return (
     <div className="post">
       {post.photo && <img className="imgPost" src={PF + post.photo} alt="" />}
       <div className="postInfo">
         <div className="postCats">
-          {post.categories.map((c,index) => (
-            <span className="postCat" key={index}>{c.name}</span>
+          {post.categories.map((c, index) => (
+            <span className="postCat" key={index}>
+              {c.name}
+            </span>
           ))}
         </div>
-        <Link to={`/post/${post._id}`} className='link'>
+        <Link to={`/post/${post._id}`} className="link">
           <span className="postTitle">{post.title}</span>
         </Link>
         <hr />

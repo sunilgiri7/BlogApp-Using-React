@@ -12,7 +12,10 @@ router.post("/", async (req, res) => {
     console.log(savedPost);
     res.status(200).json(savedPost);
   } catch (err) {
-    res.status(500).json(err);
+    console.error(err); // Log the error object for better debugging
+    res
+      .status(500)
+      .json({ message: "An error occurred while saving the post." });
   }
 });
 

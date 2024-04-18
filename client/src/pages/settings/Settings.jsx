@@ -1,8 +1,8 @@
 import "./settings.css";
-// import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import { Image, Transformation } from "cloudinary-react";
 
 export default function Settings() {
   const { user, dispatch } = useContext(Context);
@@ -11,8 +11,12 @@ export default function Settings() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
-  const PF = "https://localhost:500/images/";
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setPreviewImage(URL.createObjectURL(e.target.files[0]));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,19 +28,25 @@ export default function Settings() {
       password,
     };
     if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      updatedUser.profilePic = filename;
       try {
-        console.log(data);
-        await axios.post("/upload", data);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "blogapp"); // replace with your Cloudinary upload preset
+        formData.append("cloud_name", "dijtsdohg"); // replace with your Cloudinary cloud name
+        // Upload the file to Cloudinary
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/dijtsdohg/image/upload",
+          formData
+        );
+        updatedUser.profilePic = res.data.secure_url;
       } catch (err) {
         console.log(err);
       }
     }
     try {
+      console.log("start");
+      console.log(user._id);
+      console.log(updatedUser);
       const res = await axios.put("/users/" + user._id, updatedUser);
       setSuccess(true);
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
@@ -56,18 +66,26 @@ export default function Settings() {
         <form className="settingsForm" onSubmit={handleSubmit}>
           <label>Profile Picture</label>
           <div className="settingsPP">
-            <img
-              src={file ? URL.createObjectURL(file) : PF + user.profilePic}
-              alt=""
-            />
-            <label htmlFor="fileInput">
-              <i className="settingsPPIcon far fa-user-circle"></i>
-            </label>
+            {previewImage ? (
+              <img
+                src={previewImage}
+                alt="Preview"
+                style={{ width: "150px", height: "150px", objectFit: "cover" }}
+              />
+            ) : user.profilePic ? (
+              <Image publicId={user.profilePic}>
+                <Transformation width="150" height="150" crop="fill" />
+              </Image>
+            ) : (
+              <label htmlFor="fileInput">
+                <i className="settingsPPIcon far fa-user-circle"></i>
+              </label>
+            )}
             <input
               type="file"
               id="fileInput"
               style={{ display: "none" }}
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={handleFileChange}
             />
           </div>
           <label>Username</label>
@@ -99,7 +117,6 @@ export default function Settings() {
           )}
         </form>
       </div>
-      {/* <Sidebar /> */}
     </div>
   );
 }

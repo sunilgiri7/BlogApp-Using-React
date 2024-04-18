@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Post({ post }) {
-  const PF = "http://localhost:5000/images/";
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +18,13 @@ export default function Post({ post }) {
 
   return (
     <div className="post">
-      {post.photo && <img className="imgPost" src={PF + post.photo} alt="" />}
+      {post.photo && (
+        <img
+          className="imgPost"
+          src={post.photo} // Change the source to Cloudinary URL
+          alt=""
+        />
+      )}
       <div className="postInfo">
         <div className="postCats">
           {post.categories.map((c, index) => (

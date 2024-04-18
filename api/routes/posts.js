@@ -5,11 +5,8 @@ const Post = require("../models/Post");
 // Create
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
-  console.log(newPost);
   try {
-    console.log("dsjcbjbsa");
     const savedPost = await newPost.save();
-    console.log(savedPost);
     res.status(200).json(savedPost);
   } catch (err) {
     console.error(err); // Log the error object for better debugging

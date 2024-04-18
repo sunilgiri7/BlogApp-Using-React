@@ -13,19 +13,18 @@ router.put("/:id", async (req, res) => {
       req.body.password = await bcrypt.hash(req.body.password, salt);
     }
     try {
-      console.log("ewnjnvbs");
       const user = await User.findById(req.params.id);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
       // await Post.deleteMany({ username: user.username });
-      console.log("heyheyheyhey");
+      console.log(req.body);
       const updatedUser = await User.findOneAndUpdate(
         { _id: req.params.id },
         { $set: req.body },
         { new: true }
       );
-      // console.log(updatedUser);
+      console.log(updatedUser);
       res.status(200).json(updatedUser);
     } catch (err) {
       res.status(500).json(err);

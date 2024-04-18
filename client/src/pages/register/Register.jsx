@@ -1,29 +1,41 @@
-import { useState } from 'react';
-import './register.css'
+import { useState } from "react";
+import "./register.css";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 export default function Register() {
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
   const [error, setError] = useState(false);
+
+  const handleFileChange = (e) => {
+    setProfilePic(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
     try {
-      const res = await axios.post("/auth/register", {
-        username,
-        email,
-        password,
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (profilePic) {
+        formData.append("profilePic", profilePic);
+      }
+
+      const res = await axios.post("/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      res.data && window.location.replace("/login")
+      res.data && window.location.replace("/login");
     } catch (error) {
-      setError(true)
+      setError(true);
     }
   };
-
 
   return (
     <div className="register">
@@ -50,7 +62,15 @@ export default function Register() {
           placeholder="Enter your password.."
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="registerButton" type='submit'>Register</button>
+        <label>Profile Picture</label>
+        <input
+          type="file"
+          className="registerInput"
+          onChange={handleFileChange}
+        />
+        <button className="registerButton" type="submit">
+          Register
+        </button>
       </form>
       <p className="hint">Already Registered?</p>
       <button className="registerLoginButton">
@@ -58,7 +78,11 @@ export default function Register() {
           LOGIN
         </Link>
       </button>
-      {error && <span style={{color:"red", marginRight: "100px"}}>Something went wrong!!</span>}
+      {error && (
+        <span style={{ color: "red", marginRight: "100px" }}>
+          Something went wrong!!
+        </span>
+      )}
     </div>
   );
 }

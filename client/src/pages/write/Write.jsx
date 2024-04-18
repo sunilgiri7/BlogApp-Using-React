@@ -10,9 +10,11 @@ export default function Write() {
   const [file, setFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useContext(Context);
+
   if (isLoading) {
     return <LoadingBar />;
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPost = {
@@ -20,27 +22,38 @@ export default function Write() {
       title,
       desc,
     };
+
     if (file) {
-      const data = new FormData();
-      const filename = Date.now() + file.name;
-      data.append("name", filename);
-      data.append("file", file);
-      newPost.photo = filename;
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "blogapp"); // replace with your Cloudinary upload preset
+      formData.append("cloud_name", "dijtsdohg"); // replace with your Cloudinary cloud name
+
       try {
-        await axios.post("/upload", data);
+        setIsLoading(true);
+        const res = await axios.post(
+          "https://api.cloudinary.com/v1_1/dijtsdohg/image/upload",
+          formData
+        );
+        newPost.photo = res.data.secure_url;
+        setIsLoading(false);
       } catch (err) {
+        setIsLoading(false);
         console.log(err);
       }
     }
+
     try {
       setIsLoading(true);
       const res = await axios.post("/posts/", newPost);
       setIsLoading(false);
       window.location.replace("/post/" + res.data._id);
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     }
   };
+
   return (
     <div className="write">
       {file && (

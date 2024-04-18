@@ -15,9 +15,9 @@ const upload = multer({ storage: storage });
 
 // Configure Cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: "dijtsdohg",
+  api_key: "735669712126625",
+  api_secret: "C4Kp_lq4phHENakSojTSFxfkxC8",
 });
 
 // Register user with profile picture
@@ -26,7 +26,8 @@ router.post("/register", upload.single("profilePic"), async (req, res) => {
     const salt = await bcrypt.genSalt();
     const hashedPass = await bcrypt.hash(req.body.password, salt);
 
-    let profilePicUrl = ""; // Default profile picture URL
+    let profilePicUrl =
+      "https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331257_640.png"; // Default profile picture URL
 
     // Check if profile picture is uploaded
     if (req.file) {

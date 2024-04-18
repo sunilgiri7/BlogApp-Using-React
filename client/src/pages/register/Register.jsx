@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./register.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import LoadingBar from "../../loadingbar/LoadingBar";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -9,6 +10,11 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return <LoadingBar />;
+  }
 
   const handleFileChange = (e) => {
     setProfilePic(e.target.files[0]);
@@ -18,6 +24,7 @@ export default function Register() {
     e.preventDefault();
     setError(false);
     try {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append("username", username);
       formData.append("email", email);
@@ -31,6 +38,7 @@ export default function Register() {
           "Content-Type": "multipart/form-data",
         },
       });
+      setIsLoading(false);
       res.data && window.location.replace("/login");
     } catch (error) {
       setError(true);

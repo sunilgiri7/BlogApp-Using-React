@@ -1,68 +1,72 @@
-.register{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(rgba(255, 255, 255,0.5),rgba(255, 255, 255,0.5)), url("https://img.freepik.com/free-photo/pieces-blue-stationery_23-2148169528.jpg");
-    background-size: cover;
+.register {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("https://img.freepik.com/free-photo/pieces-blue-stationery_23-2148169528.jpg");
+  background-size: cover;
 }
 .registerTitle {
-    font-size: 2.5rem; 
-    color: #333; 
+  font-size: 2.5rem;
+  color: #333;
 }
-.registerForm{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    width: 300px; 
+.registerForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
 }
-.registerForm > label{
-    margin: 10px 0;
-    font-size: 1rem; 
-    color: #555;
+.registerForm > label {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
 }
-.registerInput{
-    padding: 12px; 
-    background-color: #f9f9f9; 
-    border: 1px solid #ddd; 
-    border-radius: 8px;
-    transition: border-color 0.3s ease;
+.registerInput {
+  padding: 12px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
 }
-.registerInput:focus{
-    outline: none;
-    border-color: dodgerblue; /* Change border color on focus */
+.registerInput:focus {
+  outline: none;
+  border-color: dodgerblue; /* Change border color on focus */
 }
 .registerButton {
-    margin-top: 20px;
-    cursor: pointer;
-    background-color: teal;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    padding: 12px 20px;
-    text-align: center;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: teal;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
 }
 .registerButton:hover {
-    background-color: #007bff; /* Darken button color on hover */
+  background-color: #007bff; /* Darken button color on hover */
 }
 
-.registerLoginButton{
-    position: absolute;
-    bottom: 50px;
-    background-color: dodgerblue;
-    cursor: pointer;
-    border: none;
-    color: white;
-    font-weight: bold;
-    padding: 10px;
-    width: 100px;
-    margin-left: 180px;
-    border-radius: 8px;
+.registerLoginButton {
+  position: absolute;
+  bottom: 20px;
+  background-color: dodgerblue;
+  cursor: pointer;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  width: 100px;
+  margin-left: 180px;
+  border-radius: 8px;
 }
-.hint{
-    margin-right: 100px;
-    margin-top: 30px;
+.hint {
+  margin-right: 100px;
+  margin-top: 15px;
 }

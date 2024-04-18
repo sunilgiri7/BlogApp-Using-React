@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import "./contact.css";
-import {
-  FaEnvelope,
-  FaPhoneAlt,
-  FaFacebook,
-  FaTwitter,
-  FaLinkedin,
-  FaGithub,
-} from "react-icons/fa";
 
 export default function Contact() {
+  const form = useRef();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,90 +14,68 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-    // Here, you can add your logic to handle form submission
-    console.log(formData);
-    // Reset form fields after submission
-    setFormData({ name: "", email: "", message: "" });
+
+    emailjs
+      .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", form.current, {
+        publicKey: "YOUR_PUBLIC_KEY",
+      })
+      .then(
+        () => {
+          console.log("SUCCESS!");
+        },
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   };
 
   return (
     <div className="contact-container">
-      <div className="contact-form">
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            ></textarea>
-          </div>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-      <div className="contact-info">
-        {/* <h3>Contact Info</h3> */}
-        <p>
-          <FaEnvelope /> seungiri841@email.com
-        </p>
-        <p>
-          <FaPhoneAlt /> +91 8218452987
-        </p>
-        <div className="social-icons">
-          <a
-            href="https://www.facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaFacebook />
-          </a>
-          <a
-            href="https://www.twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaTwitter />
-          </a>
-          <a
-            href="https://www.linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaLinkedin />
-          </a>
-          <a
-            href="https://www.github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaGithub />
-          </a>
+      <div className="contact-form-wrapper">
+        <div className="form-section">
+          <h2>Just say Hello !</h2>
+          <p>Let us know more about you !</p>
+          <form className="contact-form" ref={form} onSubmit={sendEmail}>
+            <div className="form-group">
+              <input
+                type="text"
+                name="user_name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="email"
+                name="user_email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Message"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" value="Send" className="submit-btn">
+              SUBMIT
+            </button>
+          </form>
+        </div>
+        <div className="contact-info">
+          <h1>Contact Information</h1>
+          <p>seungiri841@email.com</p>
+          <p>+91 8218452987</p>
         </div>
       </div>
     </div>

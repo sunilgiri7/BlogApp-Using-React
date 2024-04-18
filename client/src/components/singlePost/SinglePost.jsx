@@ -11,7 +11,6 @@ const SinglePost = () => {
   const [post, setPost] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const PF = "http://localhost:5000/images/";
   const { user } = useContext(Context);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -52,7 +51,7 @@ const SinglePost = () => {
         title,
         desc,
       });
-      // window.location.reload();
+      window.location.reload();
       setUpdateMode(false);
     } catch (err) {
       console.log(err);

@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import { Image, Transformation } from "cloudinary-react";
+import LoadingBar from "../../loadingbar/LoadingBar";
 
 export default function Settings() {
   const { user, dispatch } = useContext(Context);
@@ -12,6 +13,11 @@ export default function Settings() {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return <LoadingBar />;
+  }
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -20,7 +26,24 @@ export default function Settings() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if required fields are empty
+    if (!username || !email || !password) {
+      alert("Please fill all the required fields");
+      return;
+    }
+
+    setIsLoading(true);
     dispatch({ type: "UPDATE_START" });
+    console.log("start");
+    // Set a timeout for the request
+    const timeout = setTimeout(async () => {
+      setIsLoading(false);
+      setSuccess(false);
+      dispatch({ type: "UPDATE_FAILURE" });
+      console.log("Request timed out");
+    }, 10000);
+
     const updatedUser = {
       userId: user._id,
       username,
@@ -31,9 +54,8 @@ export default function Settings() {
       try {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "blogapp"); // replace with your Cloudinary upload preset
-        formData.append("cloud_name", "dijtsdohg"); // replace with your Cloudinary cloud name
-        // Upload the file to Cloudinary
+        formData.append("upload_preset", "blogapp");
+        formData.append("cloud_name", "dijtsdohg");
         const res = await axios.post(
           "https://api.cloudinary.com/v1_1/dijtsdohg/image/upload",
           formData
@@ -44,14 +66,17 @@ export default function Settings() {
       }
     }
     try {
-      console.log("start");
       console.log(user._id);
       console.log(updatedUser);
       const res = await axios.put("/users/" + user._id, updatedUser);
+      clearTimeout(timeout);
       setSuccess(true);
+      setIsLoading(false);
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
     } catch (err) {
+      clearTimeout(timeout);
       dispatch({ type: "UPDATE_FAILURE" });
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -72,8 +97,8 @@ export default function Settings() {
                 alt="Preview"
                 style={{ width: "150px", height: "150px", objectFit: "cover" }}
               />
-            ) : user.profilePic ? (
-              <Image publicId={user.profilePic}>
+            ) : user.photo ? (
+              <Image publicId={user.photo}>
                 <Transformation width="150" height="150" crop="fill" />
               </Image>
             ) : (

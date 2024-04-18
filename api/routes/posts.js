@@ -95,4 +95,53 @@ router.get("/", async (req, res) => {
   }
 });
 
+//add like in post
+router.post("/likes", async (req, res) => {
+  const { username, postId } = req.body;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).send({ error: "Post not found" });
+    }
+    if (post.likes.includes(username)) {
+      return res.status(200).send({ error: "User already liked post" });
+    }
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $push: { likes: username },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.send(401).json(error);
+  }
+});
+
+//for unlike
+router.post("/unlikes", async (req, res) => {
+  const { username, postId } = req.body;
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).send({ error: "Post not found" });
+    }
+    if (!post.likes.includes(username)) {
+      return res.status(200).send({ error: "User has not liked the post" });
+    }
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $pull: { likes: username },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;

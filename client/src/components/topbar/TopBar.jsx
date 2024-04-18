@@ -5,20 +5,46 @@ import { Link } from "react-router-dom";
 
 export default function TopBar() {
   const { user, dispatch } = useContext(Context);
-  // const PF = "https://localhost:500/images/";
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
+
   return (
     <div className="top">
       <div className="topLeft">
-        <i className="topIcon fab fa-facebook-square"></i>
-        <i className="topIcon fab fa-instagram-square"></i>
-        <i className="topIcon fab fa-pinterest-square"></i>
-        <i className="topIcon fab fa-twitter-square"></i>
+        {/* Social media icons with links */}
+        <a
+          href="https://www.facebook.com/seun.giri.3"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="topIcon fab fa-facebook-square"></i>
+        </a>
+        <a
+          href="https://www.instagram.com/thenameissunil7/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="topIcon fab fa-instagram-square"></i>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/sunil-giri77/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="topIcon fab fa-linkedin"></i>
+        </a>
+        <a
+          href="https://twitter.com/sunilgiri77"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="topIcon fab fa-twitter-square"></i>
+        </a>
       </div>
       <div className="topCenter">
+        {/* Navigation links */}
         <ul className="topList">
           <li className="topListItem">
             <Link to="/" className="link">

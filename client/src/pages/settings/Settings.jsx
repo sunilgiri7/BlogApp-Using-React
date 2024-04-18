@@ -1,9 +1,10 @@
-import "./settings.css";
 import { useContext, useState } from "react";
-import { Context } from "../../context/Context";
+import "./settings.css";
 import axios from "axios";
-import { Image, Transformation } from "cloudinary-react";
 import LoadingBar from "../../loadingbar/LoadingBar";
+import Modal from "../../loadingbar/modal"; // Import Modal component
+import { Context } from "../../context/Context";
+import { Image, Transformation } from "cloudinary-react";
 
 export default function Settings() {
   const { user, dispatch } = useContext(Context);
@@ -14,6 +15,10 @@ export default function Settings() {
   const [success, setSuccess] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showWarning, setShowWarning] = useState(false); // State for showing warning message
+  const [warningMessage, setWarningMessage] = useState(""); // State for warning message content
+  const [showSuccess, setShowSuccess] = useState(false); // State for showing success modal
+  const [successMessage, setSuccessMessage] = useState(""); // State for success message content
 
   if (isLoading) {
     return <LoadingBar />;
@@ -35,23 +40,15 @@ export default function Settings() {
 
     setIsLoading(true);
     dispatch({ type: "UPDATE_START" });
-    console.log("start");
-    // Set a timeout for the request
-    const timeout = setTimeout(async () => {
-      setIsLoading(false);
-      setSuccess(false);
-      dispatch({ type: "UPDATE_FAILURE" });
-      console.log("Request timed out");
-    }, 10000);
 
-    const updatedUser = {
-      userId: user._id,
-      username,
-      email,
-      password,
-    };
-    if (file) {
-      try {
+    try {
+      const updatedUser = {
+        userId: user._id,
+        username,
+        email,
+        password,
+      };
+      if (file) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "blogapp");
@@ -61,24 +58,26 @@ export default function Settings() {
           formData
         );
         updatedUser.profilePic = res.data.secure_url;
-      } catch (err) {
-        console.log(err);
       }
-    }
-    try {
-      console.log(user._id);
-      console.log(updatedUser);
+
       const res = await axios.put("/users/" + user._id, updatedUser);
-      clearTimeout(timeout);
-      setSuccess(true);
       setIsLoading(false);
+      setSuccess(true);
+      setSuccessMessage("Profile updated successfully!"); // Set success message content
+      setShowSuccess(true); // Show success modal
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
     } catch (err) {
-      clearTimeout(timeout);
-      dispatch({ type: "UPDATE_FAILURE" });
+      setShowWarning(true); // Show warning message on failed update
+      setWarningMessage("Something went wrong! Please try again."); // Set warning message content
       setIsLoading(false);
-      console.log(err);
+      dispatch({ type: "UPDATE_FAILURE" });
     }
+  };
+
+  // Function to close success modal
+  const handleCloseSuccessModal = () => {
+    setShowSuccess(false);
+    setSuccessMessage("");
   };
 
   return (
@@ -89,7 +88,7 @@ export default function Settings() {
           <span className="settingsDeleteTitle">Delete Your Account</span>
         </div>
         <form className="settingsForm" onSubmit={handleSubmit}>
-          <label>Profile Picture</label>
+          <label>Change Profile Picture</label>
           <div className="settingsPP">
             {previewImage ? (
               <img
@@ -140,6 +139,35 @@ export default function Settings() {
               Profile has been updated!!
             </span>
           )}
+
+          <Modal show={showSuccess} handleClose={handleCloseSuccessModal}>
+            <div className="modal-content">
+              <h2>Success</h2>
+              <p>{successMessage}</p>
+            </div>
+          </Modal>
+
+          {/* Modal for warning message */}
+          <Modal isOpen={showWarning} onClose={() => setShowWarning(false)}>
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h3>Error</h3>
+                </div>
+                <div className="modal-body">
+                  <p>{warningMessage}</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    className="modal-btn"
+                    onClick={() => setShowWarning(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Modal>
         </form>
       </div>
     </div>

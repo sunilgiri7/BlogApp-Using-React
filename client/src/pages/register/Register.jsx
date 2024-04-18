@@ -3,14 +3,17 @@ import "./register.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import LoadingBar from "../../loadingbar/LoadingBar";
+import Modal from "../../loadingbar/modal"; // Import Modal component
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
-  const [error, setError] = useState(false);
+  const [, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showWarning, setShowWarning] = useState(false); // State for showing warning message
+  const [warningMessage, setWarningMessage] = useState(""); // State for warning message content
 
   if (isLoading) {
     return <LoadingBar />;
@@ -41,7 +44,9 @@ export default function Register() {
       setIsLoading(false);
       res.data && window.location.replace("/login");
     } catch (error) {
-      setError(true);
+      setIsLoading(false);
+      setShowWarning(true); // Show warning message on failed registration
+      setWarningMessage("Something went wrong! Please try again."); // Set warning message content
     }
   };
 
@@ -86,11 +91,12 @@ export default function Register() {
           LOGIN
         </Link>
       </button>
-      {error && (
-        <span style={{ color: "red", marginRight: "100px" }}>
-          Something went wrong!!
-        </span>
-      )}
+      {/* Warning modal */}
+      <Modal
+        isOpen={showWarning}
+        message={{ title: "Error", body: warningMessage }}
+        onClose={() => setShowWarning(false)}
+      />
     </div>
   );
 }

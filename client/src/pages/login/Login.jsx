@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import LoadingBar from "../../loadingbar/LoadingBar";
+import Modal from "../../loadingbar/modal"; // Import Modal component
 
 export default function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
   const { dispatch, isFetching } = useContext(Context);
   const [isLoading, setIsLoading] = useState(false);
+  const [showWarning, setShowWarning] = useState(false); // State for showing warning message
+  const [warningMessage, setWarningMessage] = useState(""); // State for warning message content
 
   if (isLoading) {
     return <LoadingBar />;
@@ -26,10 +29,15 @@ export default function Login() {
       });
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       setIsLoading(false);
+      setShowWarning(false); // Hide warning message on successful login
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE" });
+      setIsLoading(false);
+      setShowWarning(true); // Show warning message on failed login
+      setWarningMessage("Invalid username or password. Please try again.");
     }
   };
+
   return (
     <div className="login">
       <span className="loginTitle">Login</span>
@@ -59,6 +67,13 @@ export default function Login() {
           REGISTER
         </Link>
       </button>
+
+      {/* Warning modal */}
+      <Modal
+        isOpen={showWarning}
+        message={{ title: "Warning", body: warningMessage }}
+        onClose={() => setShowWarning(false)}
+      />
     </div>
   );
 }

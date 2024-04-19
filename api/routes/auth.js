@@ -55,7 +55,9 @@ router.post("/register", upload.single("profilePic"), async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
+    console.log("dihfdh");
     const user = await User.findOne({ username: req.body.username });
+    console.log("fewhof");
     if (!user) {
       return res.status(400).json("Wrong Credentials!");
     }

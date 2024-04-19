@@ -14,7 +14,7 @@ import Profile from "./pages/profile/Profile";
 
 function App() {
   const { user } = useContext(Context);
-
+  console.log(process.env.REACT_APP_BACKEND_URL);
   return (
     <Router>
       <TopBar />

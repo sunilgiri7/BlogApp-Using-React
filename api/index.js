@@ -52,7 +52,7 @@ app.listen("5000", () => {
 });
 
 const io = require("socket.io")(server, {
-  pingTimeout: 3000,
+  // pingTimeout: 3000,
   cors: {
     origin: `${process.env.FRONTEND_URL}`,
   },

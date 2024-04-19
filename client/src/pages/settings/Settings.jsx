@@ -61,7 +61,7 @@ export default function Settings() {
       }
 
       const res = await axios.put(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/users/` + user._id,
+        `https://blogapp-using-react.onrender.com/api/users/` + user._id,
         updatedUser
       );
       setIsLoading(false);

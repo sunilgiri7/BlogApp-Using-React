@@ -20,7 +20,7 @@ const SinglePost = () => {
     const getPost = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/` + path
+          `https://blogapp-using-react.onrender.com/api/posts/` + path
         );
         setPost(res.data);
         setTitle(res.data.title);
@@ -38,7 +38,7 @@ const SinglePost = () => {
     try {
       setIsLoading(true);
       await axios.delete(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/${post._id}`,
+        `https://blogapp-using-react.onrender.com/api/posts/${post._id}`,
         {
           data: { username: user.username },
         }
@@ -52,7 +52,7 @@ const SinglePost = () => {
   const handleUpdate = async () => {
     try {
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/${post._id}`,
+        `https://blogapp-using-react.onrender.com/api/posts/${post._id}`,
         {
           username: user.username,
           title,

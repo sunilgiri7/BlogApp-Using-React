@@ -46,13 +46,11 @@ export default function Write() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/`,
+        `https://blogapp-using-react.onrender.com/api/posts/`,
         newPost
       );
       setIsLoading(false);
-      window.location.replace(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/post/` + res.data._id
-      );
+      window.location.replace(`/post/` + res.data._id);
     } catch (err) {
       setIsLoading(false);
       console.log(err);

@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts` + search
+        `https://blogapp-using-react.onrender.com/api/posts` + search
       );
       setPosts(res.data);
       console.log(res.data);

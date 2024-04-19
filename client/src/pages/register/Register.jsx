@@ -37,7 +37,7 @@ export default function Register() {
       }
 
       const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/register`,
+        `https://blogapp-using-react.onrender.com/auth/register`,
         formData,
         {
           headers: {
@@ -46,10 +46,7 @@ export default function Register() {
         }
       );
       setIsLoading(false);
-      res.data &&
-        window.location.replace(
-          `${process.env.REACT_APP_BASE_URL_BACKEND}/login`
-        );
+      res.data && window.location.replace(`/login`);
     } catch (error) {
       setIsLoading(false);
       setShowWarning(true); // Show warning message on failed registration

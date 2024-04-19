@@ -18,13 +18,14 @@ export default function Login() {
     return <LoadingBar />;
   }
 
+  console.log(process.env.REACT_APP_BASE_URL_BACKEND);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        `https://blog-app-using-react-ij4a-tau.vercel.app/auth/login`,
+        `https://blogapp-using-react.onrender.com/api/auth/login`,
         {
           username: userRef.current.value,
           password: passwordRef.current.value,

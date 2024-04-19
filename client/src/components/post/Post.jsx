@@ -48,10 +48,7 @@ export default function Post({ post }) {
           <FontAwesomeIcon icon={farHeart} className="likeIcon" />
           {/* Like Icon */}
           {/* POST TITLE */}
-          <Link
-            to={`${process.env.REACT_APP_BASE_URL_BACKEND}/post/${post._id}`}
-            className="link"
-          >
+          <Link to={`/post/${post._id}`} className="link">
             <span className="postTitle">{post.title}</span>
           </Link>
           {/* POST TITLE */}

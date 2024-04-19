@@ -20,7 +20,6 @@ export default function Post({ post }) {
   if (isLoading) {
     return <LoadingBar />;
   }
-
   return (
     <div className="post">
       <div className="imageContainer">
@@ -46,15 +45,7 @@ export default function Post({ post }) {
         </div>
         <div className="postTitleContainer">
           {/* Like Icon */}
-          <div className="likes" onClick={() => clickLikes(post)}>
-            <FontAwesomeIcon
-              icon={farHeart}
-              className={
-                post?.likes?.includes(user?._id) ? "Redlike" : "Emptylike"
-              }
-            />
-            <span className="likes-count">{post?.likes?.length}</span>
-          </div>
+          <FontAwesomeIcon icon={farHeart} className="likeIcon" />
           {/* Like Icon */}
           {/* POST TITLE */}
           <Link to={`/post/${post._id}`} className="link">
@@ -62,8 +53,7 @@ export default function Post({ post }) {
           </Link>
           {/* POST TITLE */}
           {/* Comment Icon */}
-          <div className="commentIcon" onClick={()=>setCommentsIcon(!commentsIcon)}>
-          <Link className="link" to={`/comment/${_id}`}><FontAwesomeIcon icon={farComment} className="commentIcon" /><span className="likes-count"><BsFillPencilFill/></span></Link>
+          <FontAwesomeIcon icon={farComment} className="commentIcon" />
           {/* Comment Icon */}
         </div>
         <hr />

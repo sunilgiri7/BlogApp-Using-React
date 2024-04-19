@@ -10,6 +10,7 @@ import Contact from "./pages/contact/Contact";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "./context/Context";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   const { user } = useContext(Context);
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={user ? <Home /> : <Login />} />
         <Route path="/write" element={user ? <Write /> : <Register />} />
         <Route path="/settings" element={user ? <Settings /> : <Register />} />
+        <Route path="/profile" element={user ? <Profile /> : <Register />} />
         <Route path="/post/:postId" element={<Single />} />
         <Route path="/contact" element={user ? <Contact /> : <Register />} />
       </Routes>

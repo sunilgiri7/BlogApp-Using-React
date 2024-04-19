@@ -52,7 +52,7 @@ export default function TopBar() {
             </Link>
           </li>
           <li className="topListItem">
-            <Link to="/settings" className="link">
+            <Link to="/profile" className="link">
               PROFILE
             </Link>
           </li>

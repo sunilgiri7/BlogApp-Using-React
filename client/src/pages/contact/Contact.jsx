@@ -78,6 +78,7 @@ export default function Contact() {
               <input
                 type="text"
                 name="user_name"
+                className="name"
                 value={formData.user_name}
                 onChange={handleChange}
                 placeholder="Name"

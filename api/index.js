@@ -8,12 +8,13 @@ const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
 const path = require("path");
+const cors = require("cors");
 
 const http = require("http");
 const server = http.createServer(app);
 
 dotenv.config();
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
 mongoose
@@ -24,6 +25,8 @@ mongoose
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err);
   });
+
+app.use(cors());
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

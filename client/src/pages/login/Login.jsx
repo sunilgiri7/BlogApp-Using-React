@@ -23,10 +23,13 @@ export default function Login() {
     setIsLoading(true);
     dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post("/auth/login", {
-        username: userRef.current.value,
-        password: passwordRef.current.value,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/login`,
+        {
+          username: userRef.current.value,
+          password: passwordRef.current.value,
+        }
+      );
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       setIsLoading(false);
       setShowWarning(false); // Hide warning message on successful login

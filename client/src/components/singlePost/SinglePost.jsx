@@ -19,7 +19,9 @@ const SinglePost = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await axios.get("/posts/" + path);
+        const res = await axios.get(
+          `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/` + path
+        );
         setPost(res.data);
         setTitle(res.data.title);
         setDesc(res.data.desc);
@@ -35,9 +37,12 @@ const SinglePost = () => {
   const handleDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/posts/${post._id}`, {
-        data: { username: user.username },
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/${post._id}`,
+        {
+          data: { username: user.username },
+        }
+      );
       window.location.replace("/");
       setIsLoading(false);
     } catch (err) {
@@ -46,11 +51,14 @@ const SinglePost = () => {
   };
   const handleUpdate = async () => {
     try {
-      await axios.put(`/posts/${post._id}`, {
-        username: user.username,
-        title,
-        desc,
-      });
+      await axios.put(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/${post._id}`,
+        {
+          username: user.username,
+          title,
+          desc,
+        }
+      );
       window.location.reload();
       setUpdateMode(false);
     } catch (err) {

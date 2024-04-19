@@ -36,13 +36,20 @@ export default function Register() {
         formData.append("profilePic", profilePic);
       }
 
-      const res = await axios.post("/auth/register", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setIsLoading(false);
-      res.data && window.location.replace("/login");
+      res.data &&
+        window.location.replace(
+          `${process.env.REACT_APP_BASE_URL_BACKEND}/login`
+        );
     } catch (error) {
       setIsLoading(false);
       setShowWarning(true); // Show warning message on failed registration

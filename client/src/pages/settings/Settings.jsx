@@ -60,7 +60,10 @@ export default function Settings() {
         updatedUser.profilePic = res.data.secure_url;
       }
 
-      const res = await axios.put("/users/" + user._id, updatedUser);
+      const res = await axios.put(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/users/` + user._id,
+        updatedUser
+      );
       setIsLoading(false);
       setSuccess(true);
       setSuccessMessage("Profile updated successfully!"); // Set success message content

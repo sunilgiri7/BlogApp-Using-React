@@ -45,9 +45,14 @@ export default function Write() {
 
     try {
       setIsLoading(true);
-      const res = await axios.post("/posts/", newPost);
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/posts/`,
+        newPost
+      );
       setIsLoading(false);
-      window.location.replace("/post/" + res.data._id);
+      window.location.replace(
+        `${process.env.REACT_APP_BASE_URL_BACKEND}/post/` + res.data._id
+      );
     } catch (err) {
       setIsLoading(false);
       console.log(err);

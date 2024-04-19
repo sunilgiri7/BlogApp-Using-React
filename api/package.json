@@ -16,9 +16,12 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "npm run build"
+    "build": "npm i"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }

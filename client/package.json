@@ -49,5 +49,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://blogapp-using-react.onrender.com/"
+  "proxy": "http://127.0.0.1:5000"
 }

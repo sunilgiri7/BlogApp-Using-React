@@ -24,7 +24,7 @@ export default function Login() {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL_BACKEND}/auth/login`,
+        `https://blog-app-using-react-ij4a-tau.vercel.app/auth/login`,
         {
           username: userRef.current.value,
           password: passwordRef.current.value,
